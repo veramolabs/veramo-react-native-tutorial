@@ -9,17 +9,31 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@ethersproject/shims": "^5.7.0",
+    "@sinonjs/text-encoding": "^0.7.2",
+    "@veramo/core": "^4.2.0",
+    "@veramo/data-store": "^4.2.0",
+    "@veramo/did-manager": "^4.2.0",
+    "@veramo/did-provider-ethr": "^4.2.0",
+    "@veramo/key-manager": "^4.2.0",
+    "@veramo/kms-local": "^4.2.0",
+    "cross-fetch": "^3.1.5",
+    "crypto-browserify": "^3.12.0",
     "expo": "~47.0.12",
+    "expo-sqlite": "^11.0.0",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-web": "~0.18.9"
+    "react-native-get-random-values": "^1.8.0",
+    "react-native-web": "~0.18.9",
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.70.6",
+    "babel-plugin-rewrite-require": "^1.14.5",
     "typescript": "^4.6.3"
   },
   "private": true
