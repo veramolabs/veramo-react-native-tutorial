@@ -3,6 +3,7 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
+      '@babel/plugin-syntax-import-assertions',
       [
         'babel-plugin-rewrite-require',
         {
