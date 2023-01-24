@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@ethersproject/shims": "^5.7.0",
     "@sinonjs/text-encoding": "^0.7.2",
     "@veramo/core": "^4.2.0",
