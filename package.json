@@ -15,10 +15,12 @@
     "@veramo/data-store": "^4.2.0",
     "@veramo/did-manager": "^4.2.0",
     "@veramo/did-provider-ethr": "^4.2.0",
+    "@veramo/did-resolver": "^4.2.0",
     "@veramo/key-manager": "^4.2.0",
     "@veramo/kms-local": "^4.2.0",
     "cross-fetch": "^3.1.5",
     "crypto-browserify": "^3.12.0",
+    "ethr-did-resolver": "^8.0.0",
     "expo": "~47.0.12",
     "expo-sqlite": "^11.0.0",
     "expo-status-bar": "~1.4.2",
@@ -27,7 +29,8 @@
     "react-native": "0.70.5",
     "react-native-get-random-values": "^1.8.0",
     "react-native-web": "~0.18.9",
-    "stream-browserify": "^3.0.0"
+    "stream-browserify": "^3.0.0",
+    "web-did-resolver": "^2.0.21"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

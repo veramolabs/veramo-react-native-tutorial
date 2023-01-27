@@ -21,6 +21,15 @@ import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
 // Storage plugin using TypeORM to link to a database
 import { Entities, KeyStore, DIDStore, migrations, PrivateKeyStore } from '@veramo/data-store'
 
+// Core DID resolver plugin. This plugin orchestrates different DID resolver drivers to resolve the corresponding DID Documents for the given DIDs.
+// This plugin implements `IResolver`
+import { DIDResolverPlugin } from '@veramo/did-resolver'
+
+// the did:ethr resolver package
+import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+// the did:web resolver package
+import { getResolver as webDidResolver } from 'web-did-resolver'
+
 // TypeORM is installed with '@veramo/data-store'
 import { DataSource } from 'typeorm'
 
@@ -30,7 +39,7 @@ import { DataSource } from 'typeorm'
 
 // CONSTANTS
 // You will need to get a project ID from infura https://www.infura.io
-const INFURA_PROJECT_ID = '<your PROJECT_ID here>'
+const INFURA_PROJECT_ID = '3586660d179141e3801c3895de1c2eba'
 
 // This is a raw X25519 private key, provided as an example.
 // You can run `npx @veramo/cli config create-secret-key` in a terminal to generate a new key.
@@ -79,5 +88,9 @@ export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataS
         }),
       },
     }),
+    new DIDResolverPlugin({
+        ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }), // and set it up to support `did:ethr`
+        ...webDidResolver(), // and `did:web`
+      }),
   ],
 })
