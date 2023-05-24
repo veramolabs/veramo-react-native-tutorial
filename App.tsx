@@ -6,7 +6,7 @@ import 'cross-fetch/polyfill'
 
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, MD3DarkTheme } from 'react-native-paper';
 import { IdentifiersRoute } from './src/identifiers/IdentifiersRoute';
 import { CredentialsRoute } from './src/credentials/CredentialsRoute';
 
@@ -29,7 +29,7 @@ function App() {
   });
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={MD3DarkTheme}>
       <BottomNavigation
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
