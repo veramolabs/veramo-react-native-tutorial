@@ -19,7 +19,9 @@ import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
 
 // Storage plugin using TypeORM to link to a database
-import { Entities, KeyStore, DIDStore, migrations, PrivateKeyStore } from '@veramo/data-store'
+import { Entities, KeyStore, DIDStore, migrations, PrivateKeyStore, DataStoreORM, DataStore } from '@veramo/data-store'
+
+import { CredentialPlugin, ICredentialIssuer, ICredentialVerifier } from '@veramo/credential-w3c'
 
 // Core DID resolver plugin. This plugin orchestrates different DID resolver drivers to resolve the corresponding DID Documents for the given DIDs.
 // This plugin implements `IResolver`
@@ -66,7 +68,7 @@ let dbConnection = new DataSource({
 // ... imports & CONSTANTS & DB setup
 
 // Veramo agent setup
-export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataStoreORM>({
+export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataStoreORM & ICredentialIssuer & ICredentialVerifier>({
   plugins: [
     new KeyManager({
       store: new KeyStore(dbConnection),
@@ -92,5 +94,8 @@ export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataS
         ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }), // and set it up to support `did:ethr`
         ...webDidResolver(), // and `did:web`
       }),
+    new CredentialPlugin(),
+    new DataStoreORM(dbConnection),
+    new DataStore(dbConnection),
   ],
 })
