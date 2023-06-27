@@ -28,7 +28,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
     "owner": "veramolabs"
   }
 }
