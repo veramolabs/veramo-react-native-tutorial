@@ -56,7 +56,7 @@ const App = () => {
           <View style={{ marginBottom: 50, marginTop: 20 }}>
             {identifiers && identifiers.length > 0 ? (
               identifiers.map((id: IIdentifier) => (
-                <Button onPress={() => resolveDID(id.did)} title={id.did} />
+                <Button onPress={() => resolveDID(id.did)} title={id.did} key={id.did} />
               ))
             ) : (
               <Text>No identifiers created yet</Text>
