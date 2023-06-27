@@ -29,6 +29,11 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "owner": "veramolabs"
+    "owner": "veramolabs",
+    "extra": {
+      "eas": {
+        "projectId": "9981e4c2-4562-4942-ab75-6fe3e5bc2327"
+      }
+    }
   }
 }
