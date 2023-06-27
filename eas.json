@@ -3,15 +3,18 @@
     "version": ">= 3.14.0"
   },
   "build": {
+    "production": {
+      "node": "20.2.0"
+    },
     "development": {
+      "extends": "production",
       "developmentClient": true,
       "distribution": "internal",
       "node": "20.2.0"
     },
     "preview": {
       "distribution": "internal"
-    },
-    "production": {}
+    }
   },
   "submit": {
     "production": {}
