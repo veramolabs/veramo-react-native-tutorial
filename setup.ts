@@ -6,11 +6,11 @@ import { createAgent, IDataStore, IDataStoreORM, IDIDManager, IKeyManager, IReso
 
 // Core identity manager plugin. This allows you to create and manage DIDs by orchestrating different DID provider packages.
 // This implements `IDIDManager`
-import { DIDManager } from '@veramo/did-manager'
+import { DIDManager, MemoryDIDStore } from '@veramo/did-manager'
 
 // Core key manager plugin. DIDs use keys and this key manager is required to know how to work with them.
 // This implements `IKeyManager`
-import { KeyManager } from '@veramo/key-manager'
+import { KeyManager, MemoryPrivateKeyStore, MemoryKeyStore } from '@veramo/key-manager'
 
 // This plugin allows us to create and manage `did:ethr` DIDs. (used by DIDManager)
 // import { EthrDIDProvider } from '@veramo/did-provider-ethr'
@@ -33,6 +33,8 @@ import { getResolver as webDidResolver } from 'web-did-resolver'
 
 // TypeORM is installed with '@veramo/data-store'
 import { DataSource } from 'typeorm'
+
+import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c'
 
 // filename: setup.ts
 
@@ -67,16 +69,16 @@ let dbConnection = new DataSource({
 // ... imports & CONSTANTS & DB setup
 
 // Veramo agent setup
-export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataStoreORM>({
+export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataStoreORM & ICredentialIssuer>({
   plugins: [
     new KeyManager({
-      store: new KeyStore(dbConnection),
+      store: new MemoryKeyStore(),
       kms: {
-        local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(DB_ENCRYPTION_KEY))),
+        local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
       },
     }),
     new DIDManager({
-      store: new DIDStore(dbConnection),
+      store: new MemoryDIDStore(),
       defaultProvider: 'did:peer',
       providers: {
         'did:peer': new PeerDIDProvider({
@@ -84,10 +86,13 @@ export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataS
         }),
       },
     }),
+    // new DataStore(dbConnection),
+    // new DataStoreORM(dbConnection),
     new DIDResolverPlugin({
         // ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }), // and set it up to support `did:ethr`
         ...peerDidResolver(),
         ...webDidResolver(), // and `did:web`
       }),
+    new CredentialPlugin()
   ],
 })

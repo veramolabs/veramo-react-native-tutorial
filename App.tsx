@@ -14,9 +14,11 @@ import { SafeAreaView, ScrollView, View, Text, Button } from 'react-native'
 import { agent } from './setup'
 // import some data types:
 import { DIDResolutionResult, IIdentifier } from '@veramo/core'
+import { VerifiableCredential } from '@veramo/core-types'
 
 const App = () => {
   const [identifiers, setIdentifiers] = useState<IIdentifier[]>([])
+  const [credentials, setCredentials] = useState<VerifiableCredential[]>([])
   const [resolutionResult, setResolutionResult] = useState<DIDResolutionResult | undefined>()
 
   // Resolve a DID
@@ -28,16 +30,48 @@ const App = () => {
 
   // Add the new identifier to state
   const createIdentifier = async () => {
-    console.log("create identifier")
-    const _id = await agent.didManagerCreate({
-      provider: 'did:peer',
-      options: {
-        num_algo: 2,
-        service: { type: 'DIDCommMessaging', serviceEndpoint: "did:web:dev-didcomm-mediator.herokuapp.com" } 
-      }
-    })
-    setIdentifiers((s) => s.concat([_id]))
+    // console.log("create identifier 2. agent: ", agent)
+    // const _ids = await agent.didManagerFind()
+    // console.log("_ids2: ", _ids)
+    try {
+      const _id = await agent.didManagerCreate({
+        alias: 'default2',
+        provider: 'did:peer',
+        options: {
+          num_algo: 2,
+          service: { type: 'DIDCommMessaging', serviceEndpoint: "did:web:dev-didcomm-mediator.herokuapp.com" } 
+        }
+      })
+      console.log("identifier created: ", _id)
+      setIdentifiers((s) => s.concat([_id]))
+    } catch (ex) {
+      console.log("something failed. ex: ", ex)
+    }
   }
+
+    // Add the new identifier to state
+    const createCredential = async () => {
+      // console.log("createCredential 2. agent: ", agent)
+      // const _ids = await agent.didManagerFind()
+      // console.log("_ids2: ", _ids)
+      console.log("issuer: ", identifiers[0].did)
+      try {
+        const _cred = await agent.createVerifiableCredential({
+          credential: {
+            issuer: { id: identifiers[0].did },
+            credentialSubject: {
+              id: 'did:web:example.com',
+              you: 'Rock',
+            },
+          },
+          proofFormat: 'jwt',
+        })
+        console.log("yes credential: ", _cred)
+        setCredentials((s) => s.concat([_cred]))
+      } catch (ex) {
+        console.log("something failed. ex: ", ex)
+      }
+    }
 
   // Check for existing identifers on load and set them to state
   useEffect(() => {
@@ -58,6 +92,7 @@ const App = () => {
         <View style={{ padding: 20 }}>
           <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Identifiers</Text>
           <Button onPress={() => createIdentifier()} title={'Create Identifier'} />
+          <Button onPress={() => createCredential()} title={'Create Credential'} />
           <View style={{ marginBottom: 50, marginTop: 20 }}>
             {identifiers && identifiers.length > 0 ? (
               identifiers.map((id: IIdentifier) => (
