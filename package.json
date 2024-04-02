@@ -12,16 +12,15 @@
     "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@ethersproject/shims": "^5.7.0",
     "@sinonjs/text-encoding": "^0.7.2",
-    "@veramo/core": "^5.1.2",
-    "@veramo/data-store": "^5.1.2",
-    "@veramo/did-manager": "^5.1.2",
-    "@veramo/did-provider-ethr": "^5.1.2",
-    "@veramo/did-resolver": "^5.1.2",
-    "@veramo/key-manager": "^5.1.2",
-    "@veramo/kms-local": "^5.1.2",
+    "@veramo/core": "^5.6.1-next.61",
+    "@veramo/data-store": "^5.6.1-next.61",
+    "@veramo/did-manager": "^5.6.1-next.61",
+    "@veramo/did-provider-peer": "^5.6.1-next.61",
+    "@veramo/did-resolver": "^5.6.1-next.61",
+    "@veramo/key-manager": "^5.6.1-next.61",
+    "@veramo/kms-local": "^5.6.1-next.61",
     "cross-fetch": "^3.1.5",
     "crypto-browserify": "^3.12.0",
-    "ethr-did-resolver": "^8.0.0",
     "expo": "^50.0.14",
     "expo-sqlite": "^11.1.1",
     "expo-status-bar": "^1.4.4",
@@ -39,6 +38,9 @@
     "@types/react-native": "~0.70.6",
     "babel-plugin-rewrite-require": "^1.14.5",
     "typescript": "^4.6.3"
+  },
+  "resolutions": {
+    "uint8arrays": "^4.0.0"
   },
   "private": true,
   "engines": {

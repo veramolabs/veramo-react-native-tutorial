@@ -13,7 +13,8 @@ import { DIDManager } from '@veramo/did-manager'
 import { KeyManager } from '@veramo/key-manager'
 
 // This plugin allows us to create and manage `did:ethr` DIDs. (used by DIDManager)
-import { EthrDIDProvider } from '@veramo/did-provider-ethr'
+// import { EthrDIDProvider } from '@veramo/did-provider-ethr'
+import { PeerDIDProvider, getResolver as peerDidResolver } from '@veramo/did-provider-peer'
 
 // A key management system that uses a local database to store keys (used by KeyManager)
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
@@ -26,7 +27,7 @@ import { Entities, KeyStore, DIDStore, migrations, PrivateKeyStore } from '@vera
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 
 // the did:ethr resolver package
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
+// import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 // the did:web resolver package
 import { getResolver as webDidResolver } from 'web-did-resolver'
 
@@ -76,20 +77,16 @@ export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataS
     }),
     new DIDManager({
       store: new DIDStore(dbConnection),
-      defaultProvider: 'did:ethr:goerli',
+      defaultProvider: 'did:peer',
       providers: {
-        'did:ethr:goerli': new EthrDIDProvider({
+        'did:peer': new PeerDIDProvider({
           defaultKms: 'local',
-          network: 'goerli',
-          name: 'goerli',
-          rpcUrl: 'https://goerli.infura.io/v3/' + INFURA_PROJECT_ID,
-          gas: 1000001,
-          ttl: 31104001,
         }),
       },
     }),
     new DIDResolverPlugin({
-        ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }), // and set it up to support `did:ethr`
+        // ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }), // and set it up to support `did:ethr`
+        ...peerDidResolver(),
         ...webDidResolver(), // and `did:web`
       }),
   ],

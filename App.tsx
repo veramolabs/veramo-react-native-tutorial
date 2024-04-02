@@ -28,8 +28,13 @@ const App = () => {
 
   // Add the new identifier to state
   const createIdentifier = async () => {
+    console.log("create identifier")
     const _id = await agent.didManagerCreate({
-      provider: 'did:ethr:goerli',
+      provider: 'did:peer',
+      options: {
+        num_algo: 2,
+        service: { type: 'DIDCommMessaging', serviceEndpoint: "did:web:dev-didcomm-mediator.herokuapp.com" } 
+      }
     })
     setIdentifiers((s) => s.concat([_id]))
   }
