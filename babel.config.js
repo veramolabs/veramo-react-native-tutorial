@@ -1,8 +1,19 @@
 module.exports = function (api) {
-  api.cache(true)
+  api.cache(true);
   return {
-    presets: ['babel-preset-expo'],
+    presets: [['babel-preset-expo', { lazyImports: true }]],
     plugins: [
+      '@babel/transform-react-jsx-source',
+      [`@babel/plugin-transform-private-methods`, { loose: true }],
+      'babel-plugin-transform-typescript-metadata',
+      [
+        'module-resolver',
+        {
+          alias: {
+            '~': './src',
+          },
+        },
+      ],
       '@babel/plugin-syntax-import-assertions',
       [
         'babel-plugin-rewrite-require',
@@ -13,6 +24,7 @@ module.exports = function (api) {
           },
         },
       ],
+      // 'react-native-reanimated/plugin',
     ],
-  }
-}
+  };
+};
